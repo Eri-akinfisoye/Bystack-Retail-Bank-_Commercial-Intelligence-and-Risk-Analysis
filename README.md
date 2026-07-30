@@ -1,161 +1,183 @@
-## Project Overview
-
-Bystack is a retail banking institution that offers both transactional and investment services to its customers. With digital banking adoption increasing and competition rising, understanding customer behavior has become crucial.
-
-This project analyzes customer account performance, transaction patterns, and investment activity over a 22-year period (2000–2022). The goal is to uncover insights that support customer segmentation, product optimization, and revenue strategy. 
-
-The findings will serve key stakeholders including the Marketing Department, Customer Insight Teams, and Finance Executives to guide data-driven decision-making.
-
-
-## Business Objectives
-
-This analysis aims to:
-
-- Identify high-value customers for premium offerings and retention planning.
-- Analyze customer financial activity based on transaction and account usage behavior.
-- Understand investment patterns to uncover product opportunity areas.
-- Study long-term transaction volume trends to support capacity planning and policy formulation.
+# Financial Insights System — Retail Bank (Bystack)
+### SQL-Driven Customer & Transaction Intelligence | Microsoft SQL Server
 
 ---
 
-## Data Structure Overview
+## Table of Contents
+- [Business Problem](#business-problem)
+- [Project Objective](#project-objective)
+- [Data Structure](#data-structure)
+- [ER Diagram](#er-diagram)
+- [Executive Summary](#executive-summary)
+- [Key Findings](#key-findings)
+  - [Finding 1: High-Value Customer Concentration](#finding-1-high-value-customer-concentration)
+  - [Finding 2: Dormant Account Crisis](#finding-2-dormant-account-crisis)
+  - [Finding 3: Investment Engagement Gap](#finding-3-investment-engagement-gap)
+  - [Finding 4: Transaction Volume Trends](#finding-4-transaction-volume-trends)
+- [Strategic Recommendations](#strategic-recommendations)
+- [Analytical Decisions](#analytical-decisions)
+- [Tools & Technology](#tools--technology)
+- [Author](#author)
 
-The dataset consists of nine interconnected tables reflecting core banking operations.  
-Only **four tables** were required to answer the business questions defined in this project.
+---
 
-| Table Name        | Used in Analysis | Purpose |
-|------------------|------------------|---------|
-| `FB.Customers`   | ✔ | Stores customer demographic and profile details. |
-| `FB.Accounts`    | ✔ | Contains account financial metadata including account type, balance, and ownership. |
-| `FB.Transactions`| ✔ | Records transactional activities including deposits, withdrawals, payments, and transfers. |
-| `FB.Investments` | ✔ | Logs investment activity including investment type and capital amount. |
-| `FB.Branches`    | ✖ | Branch identification and location data. |
-| `FB.Employees`   | ✖ | Employee and staffing details. |
-| `FB.CreditCards` | ✖ | Credit card product usage and associated limits. |
-| `FB.Loans`       | ✖ | Loans issued to customers including interest rate and balance. |
-| `FB.Payments`    | ✖ | Card-based and bill payment processing data. |
+## Business Problem
 
-Tables not used were excluded due to irrelevance to the analytical scope.
+Bystack is a retail banking institution offering both transactional and investment services. With digital banking adoption increasing and competition rising, understanding customer financial behaviour has become critical for retention, revenue growth, and product strategy.
+
+Despite holding data spanning over two decades of customer activity, Bystack lacked a structured analytical view of:
+- Which customers drive the most value — and how exposed the business is to losing them
+- How many registered customers are actually engaged with the platform
+- Whether investment products are being adopted broadly or concentrated in a small segment
+- How transaction volumes have shifted over time and what that signals operationally
+
+This project addresses all four questions using pure SQL analysis on Bystack's core banking database.
+
+---
+
+## Project Objective
+
+Deliver a SQL-driven intelligence report that enables Bystack's Marketing, Customer Insight, and Finance teams to make data-backed decisions on customer segmentation, retention planning, and product optimisation.
+
+Specific goals:
+- Identify the top 10% of customers by total financial value
+- Summarise account activity across deposits, withdrawals, and balances
+- Map investment product engagement across the customer base
+- Analyse transaction volume trends from 2011–2023
+
+---
+
+## Data Structure
+
+The database consists of **nine interconnected tables** reflecting core banking operations. Four tables were used in this analysis; five were out of scope for the defined business questions.
+
+| Table | Used | Description |
+|---|---|---|
+| `FB.Customers` | ✅ | Customer demographic and profile details |
+| `FB.Accounts` | ✅ | Account type, balance, and ownership metadata |
+| `FB.Transactions` | ✅ | Deposits, withdrawals, payments, and transfers |
+| `FB.Investments` | ✅ | Investment type and capital amount per customer |
+| `FB.Branches` | ❌ | Branch identification and location data |
+| `FB.Employees` | ❌ | Employee and staffing records |
+| `FB.CreditCards` | ❌ | Credit card usage and limits |
+| `FB.Loans` | ❌ | Loan balances and interest rates |
+| `FB.Payments` | ❌ | Card-based and bill payment processing |
+
+> Tables marked ❌ were excluded because they fell outside the defined analytical scope for this project.
+
+---
 
 ## ER Diagram
+
 ---<img width="1536" height="857" alt="Screenshot 2025-11-24 225952" src="https://github.com/user-attachments/assets/c87113c2-4d4c-49a1-a962-5970d822d46d" />
 
-## Tools & Technology
-Microsoft SQL Server (SSMS) — for writing and running SQL queries
+The four active tables are linked through `CustomerID` and `AccountID` as the primary join keys. A customer can hold multiple accounts; each account can have multiple transactions. Investment records are linked directly at the customer level, not the account level.
 
-Excel  — for reviewing dataset structure and data cleaning
+---
 
 ## Executive Summary
 
-The analysis examined Bystack Bank’s customer account, transaction, and investment data (2011 – 2023) to identify high-value customers, measure account activity, and investment engagement. The analysis uses customer, accounts, transactions and investments tables.
-Key Findings
-- Top 63 customers hold 38% of total value — losing them would materially impact revenue.
-- 49 of 63 (77.8%) top customers hold more than 1 distinct investment type — ideal for premium advisory upsell.
-- 39% of registered users have zero balance and no recorded transactions — indicating dormant accounts or onboarding drop-off.
-- Yearly transaction volume fluctuates, peaking in 2020 with a noticeable decline in 2015 and 2018-2019, and stabilization during 2021-2022
+Analysis of Bystack's customer, account, transaction, and investment data (2011–2023) across 1,000 registered customers reveals a business with strong value concentration in a small customer segment, a large inactive base representing untapped opportunity, and transaction patterns that suggest both peak periods and concerning decline windows.
 
-Together, these findings suggest a high dependence on a small set of sophisticated investors, while a large, inactive cohort remains untapped. This implies immediate opportunities for targeted retention and activation programs.
+**Four headline findings drive the strategic direction:**
 
-Bystack can benefit by assigning dedicated relationship managers and introducing tiered premium services to reduce churn risk. Also, redundant accounts can be reduced by offering personalized investment advisory and consolidation services
+| # | Finding | Implication |
+|---|---|---|
+| 1 | Top 63 customers hold **38% of total value** | Extreme revenue concentration risk |
+| 2 | **39% of registered users** have zero balance and no transactions | Massive onboarding dropout problem |
+| 3 | **38% of customers** hold no investment products | Significant cross-sell opportunity |
+| 4 | Transaction volume peaked in **2020**, with notable drops in 2015 and 2018–2019 | Operational and market signals worth investigating |
 
+The business is simultaneously over-reliant on a small sophisticated investor segment and under-serving a large inactive cohort. Both represent immediate, addressable opportunities.
 
 ---
 
-## Insights Summary
+## Key Findings
 
-### Business Question 1 
-**Objective:**
-Identify the top 10% high-value customers based on total sales
+### Finding 1: High-Value Customer Concentration
 
-`` SQL Query ``
-```
--- Retrieves TotalBalance, TotalInvestment, and TotalValue per customer
-With CustomerTotalValue AS ( 
-SELECT 
-A.CustomerID, 
-CONCAT(C.FirstName,' ', C.lastName) AS FullName,
-ISNULL(SUM(A.Balance),0) AS TotalBalannce,
-ISNULL(SUM(I.Amount),0) AS TotalInvestment,
-(ISNULL(SUM(A.Balance),0)+ ISNULL(SUM(I.Amount), 0)) AS TotalValue
-FROM FB.Accounts A 
-LEFT JOIN FB.Investments I 
-	ON A.CustomerID = I.CustomerId
-LEFT JOIN FB.Customers C
-	ON A.CustomerID = C.CustomerID
-GROUP BY A.CustomerID,CONCAT(C.FirstName,' ', C.lastName)
+**Objective:** Identify the top 10% of customers by combined account balance and investment value.
+
+```sql
+-- Step 1: Calculate total value per customer (balance + investments)
+WITH CustomerTotalValue AS (
+    SELECT
+        A.CustomerID,
+        CONCAT(C.FirstName, ' ', C.LastName) AS FullName,
+        ISNULL(SUM(A.Balance), 0) AS TotalBalance,
+        ISNULL(SUM(I.Amount), 0) AS TotalInvestment,
+        (ISNULL(SUM(A.Balance), 0) + ISNULL(SUM(I.Amount), 0)) AS TotalValue
+    FROM FB.Accounts A
+    LEFT JOIN FB.Investments I ON A.CustomerID = I.CustomerID
+    LEFT JOIN FB.Customers C ON A.CustomerID = C.CustomerID
+    GROUP BY A.CustomerID, CONCAT(C.FirstName, ' ', C.LastName)
 ),
--- Ranks the customer i
+-- Step 2: Rank customers into 10 equal bands by total value
 RankedValue AS (
-SELECT CT.CustomerID, 
-CT.FullName,
-CT.TotalValue,
-NTILE(10) OVER ( ORDER BY TotalValue DESC) AS Ranks
-FROM CustomerTotalValue CT
+    SELECT
+        CustomerID,
+        FullName,
+        TotalValue,
+        NTILE(10) OVER (ORDER BY TotalValue DESC) AS ValueBand
+    FROM CustomerTotalValue
 )
---gives result
-SELECT *
-FROM RankedValue RV
-WHERE RV.RankS = 1;
+-- Step 3: Return top band only
+SELECT * FROM RankedValue WHERE ValueBand = 1;
 ```
+
 ``Result``
 
 <img width="926" height="415" alt="Screenshot 2025-11-26 020144" src="https://github.com/user-attachments/assets/f069fe71-03b8-496e-9fc0-861a6c4f1e6b" />
 
-- Analysis revels that only 6% (63 out of 1,000) constitute the top 10% by total value. Despite this small proportion, they hold 38% of the total customer value, reflecting a high concentration of financial value. Losing one or more of these customers would cause a great negative effect.
-- The top 10% customers have an average total value nearly 4 times higher than the general customer base. This confirms the strong concentration of financial value held by this segment of customers.
-- 84% of the high value customers hold more that one investment account, indicating high engagement. However, only 78% invest in more than one distinct type of investment type. This suggest that majority of the high-value customers invest in multiple assets rather than concentrating on one, showing high financial knowledge and long-term investment planning.
 
-
-
-
+**Findings:**
+- Only **63 of 1,000 customers (6.3%)** qualify as top 10% by total value — yet they collectively hold **38% of Bystack's total customer value**
+- The average total value of this segment is **nearly 4× the general customer base**, confirming strong financial concentration
+- **84% of high-value customers** hold more than one investment account; **78% diversify across multiple investment types** — indicating high financial sophistication and long-term planning behaviour
+- This segment is ideal for premium advisory services and relationship manager assignment — and represents the highest retention risk if left unmanaged
 
 ---
 
-### **	Business Question 2 **
-**Objective:**
-Summarize customer account activities including deposits, withdrawals, and remaining balance.
+### Finding 2: Dormant Account Crisis
 
-`` SQL Query ``
-```
+**Objective:** Summarise customer account activity including deposits, withdrawals, and current balance.
 
-SELECT c.CustomerID, 
-ISNULL(SUM(A.Balance),0) AS Balance,
-SUM(CASE WHEN T.TransactionType = 'Deposit' THEN T.Amount ELSE 0 END ) AS TotalDeposit,
-SUM(CASE WHEN T.TransactionType = 'Withdrawal' THEN T.Amount ELSE 0 END ) AS TotalWithdrawal
+```sql
+SELECT
+    C.CustomerID,
+    ISNULL(SUM(A.Balance), 0) AS Balance,
+    SUM(CASE WHEN T.TransactionType = 'Deposit' THEN T.Amount ELSE 0 END) AS TotalDeposit,
+    SUM(CASE WHEN T.TransactionType = 'Withdrawal' THEN T.Amount ELSE 0 END) AS TotalWithdrawal
 FROM FB.Customers C
-LEFT JOIN FB.Accounts A
-	ON C.CustomerID = A.CustomerID
-LEFT JOIN FB.Transactions T
-	ON A.AccountID = T.AccountID
-GROUP BY C.CustomerID
-;
-
+LEFT JOIN FB.Accounts A ON C.CustomerID = A.CustomerID
+LEFT JOIN FB.Transactions T ON A.AccountID = T.AccountID
+GROUP BY C.CustomerID;
 ```
+
 ``Result``
 
 <img width="727" height="430" alt="Screenshot 2025-11-26 020553" src="https://github.com/user-attachments/assets/144476e0-2a29-4338-b4b0-9601730267f0" />
 
-Analysis shows that 39% of the company’s registered customers hold a zero-account balance and have no recorded transactions (deposits or withdrawals).
-This pattern suggests the presence of newly onboarded but inactive customers, abandoned sign-ups, or dormant accounts with limited engagement.
-
-While these users do not contribute to financial activity, they represent a high-potential segment for conversion, particularly if barriers during onboarding or product understanding exist.
+**Findings:**
+- **39% of registered customers** hold a zero account balance with no recorded deposits or withdrawals
+- This pattern points to three likely causes: abandoned sign-ups, onboarding friction that prevents first-time activity, or accounts that became dormant after initial registration
+- While this cohort contributes nothing to current financial activity, it represents a **high-potential conversion segment** — the infrastructure cost of reactivating an existing account is significantly lower than acquiring a new customer
+- This finding has direct implications for marketing spend efficiency: targeting dormant accounts with activation campaigns may yield better ROI than new acquisition
 
 ---
 
-### **Business Question 3 **
-**Objective:**
-Retrieve total investment value and types per customer.
+### Finding 3: Investment Engagement Gap
 
-`` SQL Query ``
-```
+**Objective:** Retrieve total investment value and product types per customer.
+
+```sql
 -- Step 1: Aggregate total investment per customer
 WITH TotalInvestments AS (
-    SELECT 
+    SELECT
         C.CustomerID,
-        ISNULL(SUM(I.Amount),0) AS TotalInvestmentAmount
+        ISNULL(SUM(I.Amount), 0) AS TotalInvestmentAmount
     FROM FB.Customers C
-    LEFT JOIN FB.Investments I
-    ON C.CustomerID = I.CustomerID
+    LEFT JOIN FB.Investments I ON C.CustomerID = I.CustomerID
     GROUP BY C.CustomerID
 ),
 -- Step 2: Get distinct investment types per customer
@@ -164,99 +186,132 @@ DistinctTypes AS (
         C.CustomerID,
         I.InvestmentType
     FROM FB.Customers C
-    INNER JOIN FB.Investments I
-        ON C.CustomerID = I.CustomerID
+    INNER JOIN FB.Investments I ON C.CustomerID = I.CustomerID
 )
--- Step 3: Combine total amount with aggregated types
-SELECT 
-    T.CustomerID,    
-    ROUND(T.TotalInvestmentAmount,2) AS TotalInvestmentAmount,
-    STRING_AGG(D.InvestmentType, ', ') 
-        WITHIN GROUP (ORDER BY D.InvestmentType ASC) AS InvestmentTypes
+-- Step 3: Combine total amount with aggregated investment type list
+SELECT
+    T.CustomerID,
+    ROUND(T.TotalInvestmentAmount, 2) AS TotalInvestmentAmount,
+    STRING_AGG(D.InvestmentType, ', ') WITHIN GROUP (ORDER BY D.InvestmentType ASC) AS InvestmentTypes
 FROM TotalInvestments T
-LEFT JOIN DistinctTypes D
-    ON T.CustomerID = D.CustomerID
-GROUP BY T.CustomerID,TotalInvestmentAmount
+LEFT JOIN DistinctTypes D ON T.CustomerID = D.CustomerID
+GROUP BY T.CustomerID, T.TotalInvestmentAmount
 ORDER BY T.TotalInvestmentAmount DESC;
-
 ```
+
 ``Result``
 
 <img width="579" height="429" alt="Screenshot 2025-11-26 021204" src="https://github.com/user-attachments/assets/946a09f0-a801-41ad-ac8d-0b79769b09e6" />
 
-
-- The analysis indicates that 38% of customers have not participated in any investment products offered by the bank. This suggests possible gaps in awareness, perceived complexity, or limited confidence in investment services.
-
-- Among the active investors, Stocks and ETFs account for 49% of investment activity, indicating a strong preference for well-known financial instruments. Additionally, 24% of investors participate in multiple investment types, reflecting a smaller segment with higher financial literacy or engagement.
+**Findings:**
+- **38% of customers have not engaged with any investment product**, suggesting awareness gaps, perceived complexity, or low confidence in Bystack's investment offerings
+- Among active investors, **Stocks and ETFs account for 49% of investment activity** — reflecting a strong preference for familiar, accessible instruments
+- Only **24% of investors participate in multiple investment types**, meaning the majority are concentrated in a single product — an indicator of both product education opportunity and portfolio risk for those customers
+- Cross-selling from single-product to multi-product investors is the clearest near-term revenue lever available within the existing customer base
 
 ---
 
-### **Business Question 4**
-**Objective:**
-Calculate transaction volume by month and transaction type from 2011–2023
+### Finding 4: Transaction Volume Trends (2011–2023)
 
-`` SQL Query ``
-```
-SELECT 
-YEAR(TransactionDate) AS Year, 
-MONTH(TransactionDate) AS Month,
-TransactionType,
-ROUND(ISNULL(SUM(Amount),0),2) AS TotalTransactionVolume
+**Objective:** Calculate transaction volume by month and transaction type across a 13-year period.
+
+```sql
+SELECT
+    YEAR(TransactionDate) AS Year,
+    MONTH(TransactionDate) AS Month,
+    TransactionType,
+    ROUND(ISNULL(SUM(Amount), 0), 2) AS TotalTransactionVolume
 FROM FB.Transactions
-WHERE TransactionDate >= '2011-01-01' AND TransactionDate < '2024-01-01'
-GROUP BY YEAR(TransactionDate), MONTH(TransactionDate),TransactionType;
+WHERE TransactionDate >= '2011-01-01'
+  AND TransactionDate < '2024-01-01'
+GROUP BY YEAR(TransactionDate), MONTH(TransactionDate), TransactionType;
 ```
+
 ``Result``
 
 <img width="439" height="425" alt="Screenshot 2025-11-26 021317" src="https://github.com/user-attachments/assets/beafaf23-d17e-4953-b232-34ec0c6bfa31" />
 
--	The transaction distribution shows a balanced activity, with no  sector overwhelming the system. Payments accounts for the largest share at 27.45%, followed closely by Transfers (25.93%), while deposits (23.88%), and withdrawals (22.74%) make up the remaining share. There exists only a small volume gap between the highest transaction and lowest transaction. Indicating diverse usage of banking services by customers.
-
--	Yearly trend analysis shows a fluctuating performance rather than a steady growth. Between 2011 and 2013, transaction volumes were relatively stable. A noticeable drop occurred in 2015(about -12.6%), after which volumes increased to its highest level in 2020 marking peak transaction activity. The last two years shows a stabilization stage phase with little changes. 
-
-
-##  Recommendations
-
-Based on findings across all business questions, the following strategic actions are suggested:
-
-###  1. 
-
-- Implement loyalty or tiered premium programs (e.g., Gold / Platinum / Signature membership).
--	Offer customers in this segment personalized incentives and starter investments to further engage these customers.
--	Assign dedicated relationship managers to provide tailored support and advisory service to top clients.
--	Provide priority access to customer support and fast-track service channels for this segment
-
-
-###  2. 
-
--	Implement automated onboarding reminders and guided tutorials to encourage first-time deposits and activity.
--	Customer support should review potential onboarding issues and assist affected customers to reduce abandonment rates.
--	Consider promotional strategies such as welcome bonuses to drive initial engagement.
-
-
-###  3. 
-
--	Provide simplified financial education resources and product comparisons to reduce knowledge barriers.
--	Introduce limited-time bonuses or reduced fees to encourage new investor participation.
--	Highlight benefits of alternative products (e.g., bonds, mutual funds) to move customers from single-product to multi-product engagement.
-
-
-###  4. 
-
--Investigate growth years (2016,2017, and 2020). Identify factors behind performance spikes. – such as marketing campaigns, service upgrades, and externals.
--	Analyze Decline periods (2015, 2018-2019: Pinpoint possible operational bottlenecks and customer dissatisfaction that might have caused the reduction in transaction activity.
--	Introduce cashback incentives of recurring payments to strengthen retention in the highest volume category
+**Findings:**
+- Transaction types are **remarkably balanced**: Payments (27.45%), Transfers (25.93%), Deposits (23.88%), Withdrawals (22.74%) — indicating diverse and stable platform usage rather than dependency on a single transaction category
+- **Yearly trend shows fluctuation rather than linear growth:**
+  - 2011–2013: Stable baseline activity
+  - 2015: Notable volume drop (~12.6% decline) — cause unidentified; warrants investigation
+  - 2016–2020: Recovery and peak — 2020 marks the highest transaction activity on record
+  - 2021–2023: Stabilisation phase with minimal growth movement
+- The 2020 peak likely reflects digital banking acceleration during the COVID-19 period — a structural shift rather than a temporary spike
+- The 2015 and 2018–2019 decline periods are the most operationally significant: understanding the root causes is essential before attributing them to market conditions vs. internal service failures
 
 ---
 
-##  Final Note
+## Strategic Recommendations
 
-This project demonstrates how SQL-driven data exploration can deliver actionable business intelligence for strategic planning in the banking sector.  
-With further integration into BI tools (Power BI / Tableau), trends can be visualized and automated for real-time decision-support systems.
+### 1. High-Value Customer Retention Program
+- Assign dedicated relationship managers to the top 63 customers
+- Introduce tiered premium membership (Gold / Platinum / Signature) with differentiated service channels
+- Offer personalised investment advisory for customers currently concentrated in a single product type
+- Implement early warning monitoring for this segment — any behavioural signal of disengagement should trigger proactive outreach
+
+### 2. Dormant Account Reactivation
+- Deploy automated onboarding follow-up sequences targeting the 39% zero-balance cohort
+- Introduce welcome incentives (e.g., deposit bonuses, fee waivers) to drive first-time transaction activity
+- Conduct a root cause audit of the onboarding flow to identify specific drop-off points
+- Segment the dormant cohort by registration date to distinguish recent abandonment from long-term inactivity — the intervention strategy differs for each
+
+### 3. Investment Product Adoption
+- Develop simplified financial education resources to lower the knowledge barrier for non-investors
+- Promote alternative products (bonds, mutual funds) to customers currently concentrated in Stocks/ETFs
+- Run limited-time fee reduction campaigns to incentivise first-time investors
+- Use the multi-investment customers (24%) as case studies for peer-influenced marketing within the platform
+
+### 4. Transaction Trend Investigation
+- Commission a retrospective review of the 2015 decline and 2018–2019 dip — identify whether causes were internal (service issues, fee changes) or external (market conditions)
+- Study the 2020 peak drivers to understand which services or campaigns accelerated growth, then assess replicability
+- Introduce cashback or loyalty incentives for recurring payment transactions to protect volume in the highest-share category
+- Build a monthly transaction monitoring dashboard (Power BI recommended) to move from retrospective to real-time trend detection
 
 ---
 
-```
- Author: *Akinfisoye Erioluwa*  
- Year: 2025  
- 
+## Analytical Decisions
+
+**Why only 4 of 9 tables were used:**
+The remaining five tables (Branches, Employees, CreditCards, Loans, Payments) contained data relevant to operational and credit risk analysis — outside the defined scope of customer segmentation and transaction intelligence. Including them without a defined business question would have introduced noise rather than insight. They remain available for a Phase 2 credit risk or operational efficiency analysis.
+
+**Why LEFT JOIN was used consistently for customer aggregations:**
+Using INNER JOIN on accounts or investments would silently exclude customers with no financial activity — precisely the dormant segment that became Finding 2. LEFT JOIN ensures the full 1,000-customer base is preserved as the analytical denominator, making zero-activity customers visible rather than hidden.
+
+**Why NTILE(10) was chosen for segmentation:**
+NTILE produces equal-sized bands based on actual data distribution, making it more robust than arbitrary threshold cuts (e.g., "top $50,000") which would be sensitive to outliers and dataset-specific. It also scales cleanly if the customer base grows.
+
+**Why this project was kept as pure SQL:**
+This analysis was intentionally scoped as a SQL-only project to demonstrate query construction, relational data modelling, and business reasoning independently of visualisation tools. The findings are structured to feed directly into a Power BI dashboard as a natural next phase.
+
+---
+
+## Tools & Technology
+
+| Tool | Purpose |
+|---|---|
+| Microsoft SQL Server (SSMS) | Query writing, execution, and result validation |
+| Excel | Initial dataset structure review and data cleaning |
+| ERDPlus / Draw.io | Entity-Relationship Diagram design |
+
+## A Note on Visualisation
+
+This project was intentionally kept as a pure SQL analysis. The goal was to demonstrate the ability to extract, structure, and communicate business insight directly from relational data — without relying on a visualisation layer to do the interpretive work.
+
+Every finding in this report is derived entirely from SQL logic: joins, aggregations, window functions, and conditional expressions. The query result screenshots serve as the direct evidence of each conclusion.
+
+A Power BI dashboard layer is a natural next phase for this dataset and has been scoped as a follow-on project. The SQL queries here would serve directly as the data source.
+
+---
+
+## Author
+
+**Akinfisoye Erioluwa**
+Data & Business Analytics | SQL · Power BI · Excel · DAX · Python
+
+[GitHub](https://github.com/Eri-akinfisoye) · [LinkedIn](https://www.linkedin.com/in/erioluwa-akinfisoye-30533a247/) · [NexaLink Churn Analysis Project](https://github.com/Eri-akinfisoye/NexaLink-Churn-Analysis)
+
+---
+
+*This project is part of a growing portfolio of SQL and Power BI analytics work. See also: NexaLink Telecom Churn Analysis, Dangote Cement KPI Automation System (DCP4).*
