@@ -295,14 +295,22 @@ This analysis was intentionally scoped as a SQL-only project to demonstrate quer
 | Excel | Initial dataset structure review and data cleaning |
 | ERDPlus / Draw.io | Entity-Relationship Diagram design |
 
+## A Note on Visualisation
+
+This project was intentionally kept as a pure SQL analysis. The goal was to demonstrate the ability to extract, structure, and communicate business insight directly from relational data — without relying on a visualisation layer to do the interpretive work.
+
+Every finding in this report is derived entirely from SQL logic: joins, aggregations, window functions, and conditional expressions. The query result screenshots serve as the direct evidence of each conclusion.
+
+A Power BI dashboard layer is a natural next phase for this dataset and has been scoped as a follow-on project. The SQL queries here would serve directly as the data source.
+
 ---
 
 ## Author
 
 **Akinfisoye Erioluwa**
-Data & Business Analytics | SQL · Power BI · Excel · DAX
+Data & Business Analytics | SQL · Power BI · Excel · DAX · Python
 
-[GitHub](https://github.com/Eri-akinfisoye) · [LinkedIn](#) · [NexaLink Churn Analysis Project](https://github.com/Eri-akinfisoye/NexaLink-Churn-Analysis)
+[GitHub](https://github.com/Eri-akinfisoye) · [LinkedIn](https://www.linkedin.com/in/erioluwa-akinfisoye-30533a247/) · [NexaLink Churn Analysis Project](https://github.com/Eri-akinfisoye/NexaLink-Churn-Analysis)
 
 ---
 
