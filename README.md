@@ -232,6 +232,8 @@ GROUP BY YEAR(TransactionDate), MONTH(TransactionDate), TransactionType;
 
 <img width="439" height="425" alt="Screenshot 2025-11-26 021317" src="https://github.com/user-attachments/assets/beafaf23-d17e-4953-b232-34ec0c6bfa31" />
 
+*Note: The overall database history spans 22 years (2001–2023), while the transaction volume trend in this section is filtered to the 13-year period (2011–2023).*
+
 **Findings:**
 - Transaction types are **remarkably balanced**: Payments (27.45%), Transfers (25.93%), Deposits (23.88%), Withdrawals (22.74%) — indicating diverse and stable platform usage rather than dependency on a single transaction category
 - **Yearly trend shows fluctuation rather than linear growth:**
