@@ -125,7 +125,10 @@ RankedValue AS (
 SELECT * FROM RankedValue WHERE ValueBand = 1;
 ```
 
-> *[Insert query result screenshot here]*
+``Result``
+
+<img width="926" height="415" alt="Screenshot 2025-11-26 020144" src="https://github.com/user-attachments/assets/f069fe71-03b8-496e-9fc0-861a6c4f1e6b" />
+
 
 **Findings:**
 - Only **63 of 1,000 customers (6.3%)** qualify as top 10% by total value — yet they collectively hold **38% of Bystack's total customer value**
@@ -151,7 +154,9 @@ LEFT JOIN FB.Transactions T ON A.AccountID = T.AccountID
 GROUP BY C.CustomerID;
 ```
 
-> *[Insert query result screenshot here]*
+``Result``
+
+<img width="727" height="430" alt="Screenshot 2025-11-26 020553" src="https://github.com/user-attachments/assets/144476e0-2a29-4338-b4b0-9601730267f0" />
 
 **Findings:**
 - **39% of registered customers** hold a zero account balance with no recorded deposits or withdrawals
@@ -194,7 +199,9 @@ GROUP BY T.CustomerID, T.TotalInvestmentAmount
 ORDER BY T.TotalInvestmentAmount DESC;
 ```
 
-> *[Insert query result screenshot here]*
+``Result``
+
+<img width="579" height="429" alt="Screenshot 2025-11-26 021204" src="https://github.com/user-attachments/assets/946a09f0-a801-41ad-ac8d-0b79769b09e6" />
 
 **Findings:**
 - **38% of customers have not engaged with any investment product**, suggesting awareness gaps, perceived complexity, or low confidence in Bystack's investment offerings
@@ -220,7 +227,9 @@ WHERE TransactionDate >= '2011-01-01'
 GROUP BY YEAR(TransactionDate), MONTH(TransactionDate), TransactionType;
 ```
 
-> *[Insert query result screenshot here]*
+``Result``
+
+<img width="439" height="425" alt="Screenshot 2025-11-26 021317" src="https://github.com/user-attachments/assets/beafaf23-d17e-4953-b232-34ec0c6bfa31" />
 
 **Findings:**
 - Transaction types are **remarkably balanced**: Payments (27.45%), Transfers (25.93%), Deposits (23.88%), Withdrawals (22.74%) — indicating diverse and stable platform usage rather than dependency on a single transaction category
